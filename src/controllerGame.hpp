@@ -3,6 +3,7 @@
 
 #include "controller.hpp"
 #include <string.h>
+#include <cmath>
  
 class ControllerGame : public Controller
 {

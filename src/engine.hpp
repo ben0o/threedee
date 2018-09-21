@@ -1,7 +1,7 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
-#include "GL/glut.h"
+#include "GLFW/glfw3.h"
 #include "console.hpp"
 #include "controller.hpp"
 #include "controllerGame.hpp"
@@ -16,9 +16,8 @@ public:
 	///////////////////////////////////////////////////////
 
 	// OpenGL callbacks
-	void GLCallbackMouseMove(int,int);
-	void GLCallbackKeyPress(unsigned char, int, int);
-	void GLCallbackKeyRelease(unsigned char, int, int);
+	void MouseCallback(double,double);
+	void KeyCallback(int, int, int, int);
 	
 	///////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////
@@ -28,11 +27,9 @@ public:
 	///////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////
 
-	void FirstRunInitialise();
-	
 	void ToggleMenu();
-	
-	void Update();
+	void Run(GLFWwindow*);
+	void Update(double);
 	void Draw();
 	void Unload();
 	
@@ -42,6 +39,9 @@ public:
 	Controller* p_cntrCurrent;
 	
 private:
+	GLFWwindow* p_window;
+
+
 	int forward;
 	int left;	
 	float magnitudeMouseX;

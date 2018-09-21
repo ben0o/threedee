@@ -1,6 +1,6 @@
 
 #include "controllerGame.hpp"
-#include "GL/glut.h"
+#include "GLFW/glfw3.h"
 
 ControllerGame::ControllerGame()
 {
@@ -17,25 +17,38 @@ void ControllerGame::Update(double)
 }
 void ControllerGame::Draw()
 {
-	glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
-	//glEnable(GL_CULL_FACE);
 	glBegin(GL_QUADS);
-		glColor3f(1.0f, 0.0f, 0.0f);     	// Red
-        glVertex3f(0.5f, -0.5f, 0.5f);
-        glColor3f(0.0f, 1.0f, 0.0f);		//green
-		glVertex3f(0.5f, 0.5f, 0.5f);
-		glColor3f(0.0f, 0.0f, 1.0f);     	// Blue
-		glVertex3f(-0.5f, 0.5f, 0.5f);
-		glColor3f(1.0f, 0.0f, 1.0f);     	// Magenta
-		glVertex3f(-0.5f, -0.5f, 0.5f);
-    glEnd();
+    // front
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    glVertex3f(1.0f, 0.0f, 0.0f);
+    glVertex3f(1.0f, 1.0f, 0.0f);
+    glVertex3f(0.0f, 1.0f, 0.0f);
+    // back
+    glVertex3f(0.0f, 0.0f, -1.0f);
+    glVertex3f(1.0f, 0.0f, -1.0f);
+    glVertex3f(1.0f, 1.0f, -1.0f);
+    glVertex3f(0.0f, 1.0f, -1.0f);
+    // right
+    glVertex3f(1.0f, 0.0f, 0.0f);
+    glVertex3f(1.0f, 0.0f, -1.0f);
+    glVertex3f(1.0f, 1.0f, -1.0f);
+    glVertex3f(1.0f, 1.0f, 0.0f);
+    // left
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    glVertex3f(0.0f, 0.0f, -1.0f);
+    glVertex3f(0.0f, 1.0f, -1.0f);
+    glVertex3f(0.0f, 1.0f, 0.0f);
+    // top
+    glVertex3f(0.0f, 1.0f, 0.0f);
+    glVertex3f(1.0f, 1.0f, 0.0f);
+    glVertex3f(1.0f, 1.0f, -1.0f);
+    glVertex3f(0.0f, 1.0f, -1.0f);
+    // bottom
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    glVertex3f(1.0f, 0.0f, 0.0f);
+    glVertex3f(1.0f, 0.0f, -1.0f);
+    glVertex3f(0.0f, 0.0f, -1.0f);
+	glEnd();
 }
 void ControllerGame::LoadScene(std::string)
 {

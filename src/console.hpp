@@ -2,15 +2,16 @@
 #ifndef CONSOLE_H
 #define CONSOLE_H
 
-#include "GL/glut.h"
+#include "GLFW/glfw3.h"
 #include <sstream>
 #include <string>
 #include <iostream>
+#include <stdlib.h>
 
 class Console
 {
 public:
-	Console();
+	Console(GLFWwindow*);
 	~Console();
 	void Message(int,std::string);
 	void Message(int,std::string,float);
@@ -40,6 +41,8 @@ private:
 	float frames;
 	float updates;
 	float updatesPerSecond;
+	
+	GLFWwindow* p_window;
 };
 
 #endif

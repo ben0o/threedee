@@ -1,84 +1,58 @@
 
+#define GLEW_STATIC
+
 #define SCREEN_WIDTH 1024.0f
 #define SCREEN_HEIGHT 768.0f
 #include <iostream>
 #include "GL/glew.h"
-#include "GL/glut.h"
+#include "GLFW/glfw3.h"
 #include "engine.hpp"
-//#include "shader.h"
 
 Engine engine;
 
-void MyDisplay()
+static void error_callback(int error, const char* description)
 {
-	engine.Update();
-	engine.Draw();
-	
-	glFlush();
-	glutSwapBuffers();
-	glutPostRedisplay();
+	std::cout << description << ":" << stderr << std::endl;
 }
-void MyMouseMove(int x, int y)
+static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	engine.GLCallbackMouseMove(x,y);
-	glutPostRedisplay();
+	engine.KeyCallback(key, scancode, action, mods);
 }
-void MyMouseClick(int button, int state, int x, int y)
+static void mouse_callback(GLFWwindow* window,double x, double y)
 {
-	// TO DO
+	engine.MouseCallback(x, y);
 }
-void MyKeyPress(unsigned char key, int x, int y)
+void framebuffer_size_callback( GLFWwindow* window, int width, int height )
 {
-	engine.GLCallbackKeyPress(key,x,y);
-	glutPostRedisplay();
-}
-void MyKeyRelease(unsigned char key, int x, int y)
-{
-	engine.GLCallbackKeyRelease(key,x,y);
-	glutPostRedisplay();
-}
-void MyIdle()
-{
-	engine.Update();
-}
-void reshape(int w, int h)
-{
-	glViewport(0, 0, (GLsizei)w, (GLsizei)h);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	//gluPerspective(45,SCREEN_WIDTH/SCREEN_HEIGHT,1.0,500.0);
-}
-
-void MyTimer(int t)
-{
-	engine.Update();
-	glutPostRedisplay();
+	glViewport( 0, 0, (int) width, (int) height );
 }
 int main(int argc, char **argv)
-{	
-	glutInit(&argc,argv);
-	std::cout << "Initialised FREEGLUT" <<std::endl;
-	glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-	glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-	glutCreateWindow("ThreeDee");
-	glutSetCursor(GLUT_CURSOR_NONE);
+{
+	glewExperimental = true;
 	
-	//GL functions
-	glutDisplayFunc(MyDisplay);
-	glutMotionFunc( MyMouseMove );									//MouseMovement callback with either button held down
-	glutPassiveMotionFunc( MyMouseMove );							//MouseMovement callback with no button held down
-	glutMouseFunc( MyMouseClick );									//Mouse click
-	glutKeyboardFunc( MyKeyPress );									//Keyboard press
-	glutKeyboardUpFunc( MyKeyRelease );								//Keyboard release
-	glutIdleFunc(MyIdle);											//Idle
-	//glutReshapeFunc(reshape);
+	glfwSetErrorCallback(error_callback);
+	glfwInit();
 	
-	glutTimerFunc(2, MyTimer,0);
+	std::cout << "Initialised GLFW" <<std::endl;
+	
+	glfwWindowHint(GLFW_SAMPLES, 4); 									// 4x AA
+	//glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); 		// We don't want the old OpenGL 
+	GLFWwindow* window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "ThreeDee", NULL, NULL);
+	glfwMakeContextCurrent(window);
+	
+	//callbacks
+	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback); 
+	glfwSetKeyCallback(window, key_callback);
+	glfwSetCursorPosCallback(window, mouse_callback);
+	
+	glfwSwapInterval(1);
+
 	glewInit();
 	std::cout << "Initialised GLEW" <<std::endl;
-	//ShaderManager * sm_p = new ShaderManager();
 	
-	//engine.PassShaderManager(sm_p);
-	engine.FirstRunInitialise();
-	glutMainLoop();
+	engine.Run(window);
+	
+	return 0;
 }

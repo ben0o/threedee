@@ -1,7 +1,8 @@
 #include "console.hpp"
 
-Console::Console()
+Console::Console(GLFWwindow* window)
 {
+	p_window = window;
 	bEnableVBO = true;
 	bEnableFBO = true;
 	bShowFrameRate = false;
@@ -34,11 +35,6 @@ void Console::Message(int level,std::string msg,float val)
 {
 	std::cout  << msg << " " << val <<std::endl;
 }
-
-//void Console::PassWorld(World* p_world)
-//{
-//	w = p_world;
-//}
 void Console::CheckForErrors()
 {
 	GLenum err (glGetError());
@@ -57,20 +53,17 @@ void Console::CheckForErrors()
 }
 void Console::FrameRate()
 {
-	float time = glutGet(GLUT_ELAPSED_TIME);
+	
+	float time = glfwGetTime();
 	++frames;
-	if ((time - basetime) > 1000.0)
+	if ((time - basetime) > 1.0)
 	{
-		framesPerSecond=frames*1000.0/(time - basetime);
+		framesPerSecond=frames;
 		updatesPerSecond = updates;
 		basetime = time;
 		frames=0;
 		updates=0;
 	}
-
-	std::stringstream ss;// (stringstream::in | stringstream::out);
-
-	ss << framesPerSecond;
 }
 void Console::UpdateRate()
 {
@@ -78,12 +71,22 @@ void Console::UpdateRate()
 }
 void Console::DisplayFrameRate()
 {
+	//GLFW doesn't directly support text so we'll do some console stuff instead
+	system ("clear"); //We're targeting linux
+	std::cout << "FPS:" << framesPerSecond << std::endl;
+	
+	//std::cout << updatesPerSecond << std::endl;
+	
+	/*
+	int width, height;
+
 	glMatrixMode(GL_PROJECTION);
     glPushMatrix();             
     glLoadIdentity();   
-    int w = glutGet( GLUT_WINDOW_WIDTH );
-    int h = glutGet( GLUT_WINDOW_HEIGHT );
-    glOrtho( 0, w, 0, h, -1, 1 );
+    
+	glfwGetFramebufferSize(p_window, &width, &height);
+
+    glOrtho( 0, width, 0, height, -1, 1 );
 
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
@@ -108,17 +111,20 @@ void Console::DisplayFrameRate()
 	len2 = str2.size();
 	
 	//glRasterPos3i(0, 0,10);
-	glRasterPos2i(10, h - 20);
+	glRasterPos2i(10, height - 20);
 	for (j = 0; j < len; j++) 
 	{
-		glutBitmapCharacter(GLUT_BITMAP_9_BY_15, str[j]);
+		//glutBitmapCharacter(GLUT_BITMAP_9_BY_15, str[j]);
 	}
-	glRasterPos2i(10, h - 40);
+	glRasterPos2i(10, height - 40);
 	for (j = 0; j < len2; j++) 
 	{
-		glutBitmapCharacter(GLUT_BITMAP_9_BY_15, str2[j]);
+		//glutBitmapCharacter(GLUT_BITMAP_9_BY_15, str2[j]);
 	}
 	//glEnable( GL_LIGHTING );
+
+	//std::cout<< str << std::endl;
+	//std::cout<< str2 << std::endl;
 
     glEnable (GL_DEPTH_TEST);     
 
@@ -126,4 +132,5 @@ void Console::DisplayFrameRate()
     glPopMatrix();
     glMatrixMode(GL_PROJECTION);
     glPopMatrix();  
+    */ 
 }
