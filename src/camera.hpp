@@ -4,6 +4,8 @@
 
 #include "GLFW/glfw3.h"
 #include "glm/vec3.hpp"
+#include <cmath>
+
 
 class Camera
 {
@@ -16,7 +18,7 @@ public:
 	void MouseSetRotation(double,double);
 	
 	void Update(double);
-	void Draw();
+	void Draw(GLFWwindow*);
 	
 private:
 	glm::vec3 vec3Position;

@@ -101,33 +101,7 @@ void Engine::Update(double dt)
 }
 void Engine::Draw()
 {
-	double fovy = 45.0;
-	double zNear = 0.1;
-	double zFar = 1500;
-	
-	float ratio;
-	int width, height;
-	double xmin, xmax, ymin, ymax;
-	
-	glfwGetFramebufferSize(p_window, &width, &height);
-	ratio = width / (float) height;
-	glViewport(0, 0, width, height);
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-	
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	
-	ymax = zNear * tan(fovy * M_PI / 360.0);
-	ymin = -ymax;
-	xmin = ymin * ratio;
-	xmax = ymax * ratio;
-	glFrustum(xmin, xmax, ymin, ymax, zNear, zFar);
-	
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	
-	p_camera->Draw();
+	p_camera->Draw(p_window);
 	
 	//Draw world here
 	
