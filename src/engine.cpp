@@ -3,26 +3,21 @@
 
 void Engine::MouseCallback(double x, double y)
 {
-	/*
-	int centerX = glutGet(GLUT_WINDOW_WIDTH) / 2;
-	int centerY = glutGet(GLUT_WINDOW_HEIGHT) / 2;
+	float deltaX =  x - oldMousePosX;
+	float deltaY =  y - oldMousePosY;
+	
+	mouseSensitivity = 0.01;
+	deltaX *= mouseSensitivity;
+	deltaY *= mouseSensitivity;
 
-	int deltaX =  x - centerX;
-	int deltaY =  y - centerY;
-
-	if(deltaX != 0 || deltaY != 0) 
-	{
-		magnitudeMouseX = deltaX * 0.2f;
-		magnitudeMouseY = deltaY * 0.2f;
-
-		glutWarpPointer(centerX, centerY);
-	}
-	*/ 
+	//Direct hook into camera rotation from mouse movement to prevent lag
+	p_camera->MouseSetRotation(deltaX,deltaY);
+	
+	oldMousePosX = x;
+	oldMousePosY = y;
 }
 void Engine::KeyCallback(int key, int scancode, int action, int mods)
 {
-	forward = 0;
-	left = 0;
 
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(p_window, GL_TRUE);
@@ -37,12 +32,14 @@ void Engine::ToggleMenu()
 		{ //Show menu
 			p_console->Message(0,"Assign Menu to Controller Pointer");
 			p_cntrCurrent = p_cntrMenu;
+			p_cntrCurrent->SetForegroundStatus();
 			bShowMenu = true;
 		}
 		else
 		{ //Show game
 			p_console->Message(0,"Assign Game to Controller Pointer");
 			p_cntrCurrent = p_cntrGame;
+			p_cntrCurrent->SetForegroundStatus();
 			bShowMenu = false;
 		}
 	//}
@@ -50,16 +47,23 @@ void Engine::ToggleMenu()
 void Engine::Run(GLFWwindow* window)
 {
 	p_window = window;
-	bGameRunning = false;
-	bShowMenu = true;
 	
 	p_console = new Console(p_window);
 	p_console->Message(0,"Console initialised");
-	p_console->bShowFrameRate = true;
+
 	p_cntrMenu = new ControllerMenu(p_console);
 	p_cntrGame = new ControllerGame(p_console);
 	
-	p_cntrCurrent = p_cntrGame;
+	//Set the menu as the current controller object
+	p_cntrCurrent = p_cntrMenu;
+	p_cntrCurrent->SetForegroundStatus();
+	bShowMenu = true;
+	p_console->Message(0,"Assign Menu to Controller Pointer");
+	
+	//Camera
+	p_camera = new Camera(0.0,0.0,-10.5);
+	oldMousePosX = 0.0;
+	oldMousePosY = 0.0;
 	
 	double timeDelta = 1.0/30.0;
 	double timeAccumulator = 0;
@@ -88,6 +92,12 @@ void Engine::Update(double dt)
 {
 	p_console->UpdateRate();
 	p_cntrCurrent->Update(dt);
+	p_camera->Update(dt);
+	if (!p_cntrCurrent->GetForegroundStatus())
+	{
+		//Current controller has slipped into the background, bring other controller to the front 
+		ToggleMenu();
+	}
 }
 void Engine::Draw()
 {
@@ -117,8 +127,11 @@ void Engine::Draw()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	
-	glTranslatef(0.0f,0.0f,-5.0f);
+	p_camera->Draw();
 	
+	//Draw world here
+	
+	//***************
 	p_cntrCurrent->Draw();
     p_console->DisplayFrameRate();
 	p_console->FrameRate();

@@ -8,6 +8,7 @@ ControllerGame::ControllerGame()
 ControllerGame::ControllerGame(Console* _ptr)
 {
 	p_console = _ptr;
+	bActive = false;
 }
 ControllerGame::~ControllerGame()
 {

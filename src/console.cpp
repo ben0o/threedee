@@ -71,66 +71,67 @@ void Console::UpdateRate()
 }
 void Console::DisplayFrameRate()
 {
-	//GLFW doesn't directly support text so we'll do some console stuff instead
-	system ("clear"); //We're targeting linux
-	std::cout << "FPS:" << framesPerSecond << std::endl;
-	
-	//std::cout << updatesPerSecond << std::endl;
-	
-	/*
-	int width, height;
+	if (bShowFrameRate)
+	{		
+		//GLFW doesn't directly support text so we'll do some console stuff instead
+		system ("clear"); //We're targeting linux
+		std::cout << "FPS:" << framesPerSecond << std::endl;
 
-	glMatrixMode(GL_PROJECTION);
-    glPushMatrix();             
-    glLoadIdentity();   
-    
-	glfwGetFramebufferSize(p_window, &width, &height);
+		/*
+		int width, height;
 
-    glOrtho( 0, width, 0, height, -1, 1 );
+		glMatrixMode(GL_PROJECTION);
+		glPushMatrix();             
+		glLoadIdentity();   
+		
+		glfwGetFramebufferSize(p_window, &width, &height);
 
-    glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
-    glLoadIdentity();
+		glOrtho( 0, width, 0, height, -1, 1 );
 
-    glDisable( GL_DEPTH_TEST ); 
+		glMatrixMode(GL_MODELVIEW);
+		glPushMatrix();
+		glLoadIdentity();
 
-    glDisable( GL_LIGHTING );
+		glDisable( GL_DEPTH_TEST ); 
 
-	int len, len2, j;
-	std::stringstream ss;//create a stringstream
-	std::stringstream ss2;
-	
-	ss << "FPS:" << framesPerSecond;
-	ss2 << "UPS:" << updatesPerSecond;
-	
-	std::string str = ss.str();
-	std::string str2 = ss2.str();
-	
-	glColor3f( 255, 255, 255 );
-	len = str.size();
-	len2 = str2.size();
-	
-	//glRasterPos3i(0, 0,10);
-	glRasterPos2i(10, height - 20);
-	for (j = 0; j < len; j++) 
-	{
-		//glutBitmapCharacter(GLUT_BITMAP_9_BY_15, str[j]);
+		glDisable( GL_LIGHTING );
+
+		int len, len2, j;
+		std::stringstream ss;//create a stringstream
+		std::stringstream ss2;
+		
+		ss << "FPS:" << framesPerSecond;
+		ss2 << "UPS:" << updatesPerSecond;
+		
+		std::string str = ss.str();
+		std::string str2 = ss2.str();
+		
+		glColor3f( 255, 255, 255 );
+		len = str.size();
+		len2 = str2.size();
+		
+		//glRasterPos3i(0, 0,10);
+		glRasterPos2i(10, height - 20);
+		for (j = 0; j < len; j++) 
+		{
+			//glutBitmapCharacter(GLUT_BITMAP_9_BY_15, str[j]);
+		}
+		glRasterPos2i(10, height - 40);
+		for (j = 0; j < len2; j++) 
+		{
+			//glutBitmapCharacter(GLUT_BITMAP_9_BY_15, str2[j]);
+		}
+		//glEnable( GL_LIGHTING );
+
+		//std::cout<< str << std::endl;
+		//std::cout<< str2 << std::endl;
+
+		glEnable (GL_DEPTH_TEST);     
+
+		glMatrixMode(GL_MODELVIEW);
+		glPopMatrix();
+		glMatrixMode(GL_PROJECTION);
+		glPopMatrix();  
+		*/ 
 	}
-	glRasterPos2i(10, height - 40);
-	for (j = 0; j < len2; j++) 
-	{
-		//glutBitmapCharacter(GLUT_BITMAP_9_BY_15, str2[j]);
-	}
-	//glEnable( GL_LIGHTING );
-
-	//std::cout<< str << std::endl;
-	//std::cout<< str2 << std::endl;
-
-    glEnable (GL_DEPTH_TEST);     
-
-    glMatrixMode(GL_MODELVIEW);
-    glPopMatrix();
-    glMatrixMode(GL_PROJECTION);
-    glPopMatrix();  
-    */ 
 }
