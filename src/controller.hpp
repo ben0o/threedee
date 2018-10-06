@@ -3,12 +3,14 @@
 
 #include <string>
 #include "console.hpp"
+#include "Structs.hpp"
+#include "SceneManager.hpp"
 
 class Controller
 {
 public:
 	Controller();
-	Controller(Console*);
+	Controller(Console*,Settings*,SceneManager*);
 	~Controller();
 	
 	void SetForegroundStatus();					//used to switch between controllers
@@ -16,12 +18,11 @@ public:
 	virtual void Update(double);
 	virtual void Draw();
 
-	virtual void LoadScene(std::string);
-	virtual void LoadAssets();
+	virtual void CompareSettings();
+	
+protected:
 	Console* p_console;
+	Settings* p_settings;
 	bool bActive;
-	
-private:
-	
 };
 #endif

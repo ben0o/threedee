@@ -40,6 +40,7 @@ void Engine::ToggleMenu()
 			p_console->Message(0,"Assign Game to Controller Pointer");
 			p_cntrCurrent = p_cntrGame;
 			p_cntrCurrent->SetForegroundStatus();
+			p_cntrCurrent->CompareSettings();
 			bShowMenu = false;
 		}
 	//}
@@ -51,8 +52,15 @@ void Engine::Run(GLFWwindow* window)
 	p_console = new Console(p_window);
 	p_console->Message(0,"Console initialised");
 
-	p_cntrMenu = new ControllerMenu(p_console);
-	p_cntrGame = new ControllerGame(p_console);
+	p_settings = new Settings();
+	
+	//Load settings
+	
+	p_meshManager = new MeshManager();
+	p_textureManager = new TextureManager();
+	p_sceneManager = new SceneManager(p_meshManager,p_textureManager);
+	p_cntrMenu = new ControllerMenu(p_console,p_settings,p_sceneManager);
+	p_cntrGame = new ControllerGame(p_console,p_settings,p_sceneManager);
 	
 	//Set the menu as the current controller object
 	p_cntrCurrent = p_cntrMenu;
@@ -61,7 +69,7 @@ void Engine::Run(GLFWwindow* window)
 	p_console->Message(0,"Assign Menu to Controller Pointer");
 	
 	//Camera
-	p_camera = new Camera(0.0,0.0,-10.5);
+	p_camera = new Camera(0.0,0.0,-50.5);
 	oldMousePosX = 0.0;
 	oldMousePosY = 0.0;
 	
@@ -102,6 +110,12 @@ void Engine::Update(double dt)
 void Engine::Draw()
 {
 	p_camera->Draw(p_window);
+	
+	glEnable ( GL_LIGHTING ) ;
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHT0);
+	GLfloat lightPos[] = { -50.f, 50.0f, 100.0f, 1.0f };
+	glLightfv(GL_LIGHT0,GL_POSITION,lightPos);
 	
 	//Draw world here
 	

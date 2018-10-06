@@ -1,56 +1,47 @@
 
 #include "controllerGame.hpp"
+#include <iostream>
 #include "GLFW/glfw3.h"
 
 ControllerGame::ControllerGame()
 {
 }
-ControllerGame::ControllerGame(Console* _ptr)
+ControllerGame::ControllerGame(Console* _ptrConsole, Settings* _ptrSettings,SceneManager* _ptrSceneMan)
 {
-	p_console = _ptr;
+	p_console = _ptrConsole;
+	p_settings = _ptrSettings;
+	p_sceneManager = _ptrSceneMan;
+	
+	//Copy engine settings to local settings
+	settings = *p_settings;
 	bActive = false;
 }
 ControllerGame::~ControllerGame()
 {
 }
-void ControllerGame::Update(double)
+void ControllerGame::Update(double _dt)
 {
+	p_sceneManager->Update(_dt);
 }
 void ControllerGame::Draw()
 {
-	glBegin(GL_QUADS);
-    // front
-    glVertex3f(0.0f, 0.0f, 0.0f);
-    glVertex3f(1.0f, 0.0f, 0.0f);
-    glVertex3f(1.0f, 1.0f, 0.0f);
-    glVertex3f(0.0f, 1.0f, 0.0f);
-    // back
-    glVertex3f(0.0f, 0.0f, -1.0f);
-    glVertex3f(1.0f, 0.0f, -1.0f);
-    glVertex3f(1.0f, 1.0f, -1.0f);
-    glVertex3f(0.0f, 1.0f, -1.0f);
-    // right
-    glVertex3f(1.0f, 0.0f, 0.0f);
-    glVertex3f(1.0f, 0.0f, -1.0f);
-    glVertex3f(1.0f, 1.0f, -1.0f);
-    glVertex3f(1.0f, 1.0f, 0.0f);
-    // left
-    glVertex3f(0.0f, 0.0f, 0.0f);
-    glVertex3f(0.0f, 0.0f, -1.0f);
-    glVertex3f(0.0f, 1.0f, -1.0f);
-    glVertex3f(0.0f, 1.0f, 0.0f);
-    // top
-    glVertex3f(0.0f, 1.0f, 0.0f);
-    glVertex3f(1.0f, 1.0f, 0.0f);
-    glVertex3f(1.0f, 1.0f, -1.0f);
-    glVertex3f(0.0f, 1.0f, -1.0f);
-    // bottom
-    glVertex3f(0.0f, 0.0f, 0.0f);
-    glVertex3f(1.0f, 0.0f, 0.0f);
-    glVertex3f(1.0f, 0.0f, -1.0f);
-    glVertex3f(0.0f, 0.0f, -1.0f);
-	glEnd();
+	p_sceneManager->Draw();
 }
-void ControllerGame::LoadScene(std::string)
+void ControllerGame::CompareSettings()
 {
+	bool bChangeLevel = false;
+	if (p_settings->level != settings.level)
+		bChangeLevel = true;
+	
+	//Copy engine settings to local settings
+	settings = *p_settings;
+	
+	if (bChangeLevel)
+		LoadLevel();
+}
+void ControllerGame::LoadLevel()
+{
+	std::cout << "Loading Level " << settings.level << std::endl;
+	p_sceneManager->AddObject(0,0,-5);
+	
 }

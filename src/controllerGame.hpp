@@ -2,6 +2,8 @@
 #define CONTROLLERGAME_H
 
 #include "controller.hpp"
+#include "SceneManager.hpp"
+#include "Structs.hpp"
 #include <string.h>
 #include <cmath>
  
@@ -9,11 +11,20 @@ class ControllerGame : public Controller
 {
 public:
 	ControllerGame();
-	ControllerGame(Console*);
+	ControllerGame(Console*,Settings*,SceneManager*);
 	~ControllerGame();
 
 	virtual void Update(double);
 	virtual void Draw();
-	virtual void LoadScene(std::string);	
+	
+	virtual void CompareSettings();
+
+private:
+	void LoadLevel();
+
+protected:
+	SceneManager* p_sceneManager;
+	Settings settings;
+	
 };
 #endif

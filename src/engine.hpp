@@ -7,6 +7,11 @@
 #include "camera.hpp"
 #include "controllerGame.hpp"
 #include "controllerMenu.hpp"
+#include "SceneManager.hpp"
+#include "MeshManager.hpp"
+#include "TextureManager.hpp"
+#include "Mesh.hpp"
+#include "Structs.hpp"
 #include "glm/vec3.hpp"
 
 class Engine
@@ -42,10 +47,11 @@ private:
 	float oldMousePosX;
 	float oldMousePosY;
 	float mouseSensitivity;
-
-protected:
-
 	
+	Settings* p_settings;
+	SceneManager* p_sceneManager;
+	MeshManager* p_meshManager;
+	TextureManager* p_textureManager;
 };
 
 #endif

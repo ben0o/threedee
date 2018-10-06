@@ -4,9 +4,11 @@
 ControllerMenu::ControllerMenu()
 {
 }
-ControllerMenu::ControllerMenu(Console* _ptr)
+ControllerMenu::ControllerMenu(Console* _ptrConsole, Settings* _ptrSettings,SceneManager* _ptrSceneMan)
 {
-	p_console = _ptr;
+	p_console = _ptrConsole;
+	p_settings = _ptrSettings;
+	p_sceneManager = _ptrSceneMan;
 	bActive = false;
 }
 ControllerMenu::~ControllerMenu()
@@ -19,7 +21,5 @@ void ControllerMenu::Update(double)
 void ControllerMenu::Draw()
 {
 }
-void ControllerMenu::LoadScene(std::string)
-{
-}
+
  
