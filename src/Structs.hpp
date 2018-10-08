@@ -15,6 +15,7 @@ struct Settings
 struct Object
 {
 	std::string name;
+	std::string meshFilename;
 	int meshID;
 	float x;
 	float y;
@@ -25,6 +26,7 @@ struct Object
 	Object()
 	{
 		name = "";
+		meshFilename = "cube.obj";
 		meshID = -1;
 		x = 0.f;
 		y = 0.f;

@@ -104,7 +104,7 @@ int MeshManager::LoadObj(std::string _filename)
 		for (int j=0;j<3;j++)
 			tempMesh.normals.push_back(normals[((normalIndices[i]-1)*3)+j]);
 	
-	tempMesh.vertexCount = vertices.size();
+	tempMesh.vertexCount = vertexIndices.size();
 	mesh.push_back(tempMesh);
 
 	meshMap[_filename] = mesh.size()-1;

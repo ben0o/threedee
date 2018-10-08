@@ -15,7 +15,7 @@ public:
 	
 	void Draw();
 	void Update(double);
-	void AddObject(float, float, float);
+	void AddObject(Object);
 	
 private:
 	MeshManager* p_meshManager;
