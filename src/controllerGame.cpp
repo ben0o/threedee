@@ -1,7 +1,7 @@
 
 #include "controllerGame.hpp"
 #include <iostream>
-#include "GLFW/glfw3.h"
+
 
 ControllerGame::ControllerGame()
 {
@@ -11,6 +11,7 @@ ControllerGame::ControllerGame(Console* _ptrConsole, Settings* _ptrSettings,Scen
 	p_console = _ptrConsole;
 	p_settings = _ptrSettings;
 	p_sceneManager = _ptrSceneMan;
+	bLoading = true;
 	
 	//Copy engine settings to local settings
 	settings = *p_settings;
@@ -21,11 +22,13 @@ ControllerGame::~ControllerGame()
 }
 void ControllerGame::Update(double _dt)
 {
-	p_sceneManager->Update(_dt);
+	if (!bLoading)
+		p_sceneManager->Update(_dt);
 }
-void ControllerGame::Draw()
+void ControllerGame::Draw(GLFWwindow* _window)
 {
-	p_sceneManager->Draw();
+	if (!bLoading)
+		p_sceneManager->Draw(_window);
 }
 void ControllerGame::CompareSettings()
 {
@@ -41,18 +44,16 @@ void ControllerGame::CompareSettings()
 }
 void ControllerGame::LoadLevel()
 {
+	//this needs to be threaded
+	bLoading = true;
 	std::cout << "Loading Level " << settings.level << std::endl;
 	Object tempObj;
 	tempObj.z = -5.f;
-	tempObj.ry = -90.f;
+	tempObj.ry = -95.f;
 	tempObj.meshFilename = "cabin.obj";
 	p_sceneManager->AddObject(tempObj);
 	
-	tempObj.z = 45.f;
-	tempObj.x = -2.f;
-	tempObj.y = 0.5f;
-	tempObj.ry = -45.f;
-	tempObj.meshFilename = "cube.obj";
-	p_sceneManager->AddObject(tempObj);
-	
+	p_sceneManager->InitialiseShaders();
+	bLoading = false;
 }
+

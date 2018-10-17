@@ -21,12 +21,4 @@ bool Controller::GetForegroundStatus()
 {
 	return bActive;
 }
-void Controller::Draw()							//virtual
-{
-}
-void Controller::Update(double dt)				//virtual
-{
-}
-void Controller::CompareSettings()				//virtual
-{
-}
+

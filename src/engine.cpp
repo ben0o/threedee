@@ -56,9 +56,9 @@ void Engine::Run(GLFWwindow* window)
 	
 	//Load settings
 	
-	p_meshManager = new MeshManager();
+	p_meshManager = new MeshManager(p_settings);
 	p_textureManager = new TextureManager();
-	p_sceneManager = new SceneManager(p_meshManager,p_textureManager);
+	p_sceneManager = new SceneManager(p_meshManager,p_textureManager,p_settings);
 	p_cntrMenu = new ControllerMenu(p_console,p_settings,p_sceneManager);
 	p_cntrGame = new ControllerGame(p_console,p_settings,p_sceneManager);
 	
@@ -69,7 +69,7 @@ void Engine::Run(GLFWwindow* window)
 	p_console->Message(0,"Assign Menu to Controller Pointer");
 	
 	//Camera
-	p_camera = new Camera(0.0,0.0,-50.5);
+	p_camera = new Camera(0.0,0.0,-50.0);
 	oldMousePosX = 0.0;
 	oldMousePosY = 0.0;
 	
@@ -109,18 +109,14 @@ void Engine::Update(double dt)
 }
 void Engine::Draw()
 {
-	p_camera->Draw(p_window);
 	
-	glEnable ( GL_LIGHTING ) ;
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_LIGHT0);
-	GLfloat lightPos[] = { -50.f, 50.0f, 100.0f, 1.0f };
-	glLightfv(GL_LIGHT0,GL_POSITION,lightPos);
-	
+	//p_camera->Draw(p_window);
+
 	//Draw world here
 	
 	//***************
-	p_cntrCurrent->Draw();
+	p_cntrCurrent->Draw(p_window);
+
     p_console->DisplayFrameRate();
 	p_console->FrameRate();
 	p_console->CheckForErrors();

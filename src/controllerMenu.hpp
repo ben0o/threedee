@@ -16,8 +16,8 @@ public:
 
 	virtual void Update(double);
 	virtual void Draw();
-
 	std::string GetCurrentLevel();
+	
 	
 protected:
 	SceneManager* p_sceneManager;

@@ -1,8 +1,9 @@
 
 #include "MeshManager.hpp"
 
-MeshManager::MeshManager()
+MeshManager::MeshManager(Settings* _ptrSettings)
 {
+	p_settings = _ptrSettings;
 }
 MeshManager::~MeshManager()
 {
@@ -105,6 +106,7 @@ int MeshManager::LoadObj(std::string _filename)
 			tempMesh.normals.push_back(normals[((normalIndices[i]-1)*3)+j]);
 	
 	tempMesh.vertexCount = vertexIndices.size();
+	tempMesh.InitialiseVAO();	
 	mesh.push_back(tempMesh);
 
 	meshMap[_filename] = mesh.size()-1;

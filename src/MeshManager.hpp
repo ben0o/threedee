@@ -8,12 +8,13 @@
 #include <sstream>
 #include <iostream>
 #include <fstream>
+#include "Structs.hpp"
 
 
 class MeshManager
 {
 public:
-	MeshManager();
+	MeshManager(Settings*);
 	~MeshManager();
 	
 	void Update(double);
@@ -23,6 +24,9 @@ public:
 
 	std::vector<Mesh> mesh;
 	std::map<std::string,int> meshMap;
+	
+	private:
+	Settings* p_settings;
 };
 
 #endif

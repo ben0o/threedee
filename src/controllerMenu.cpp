@@ -21,5 +21,4 @@ void ControllerMenu::Update(double)
 void ControllerMenu::Draw()
 {
 }
-
  

@@ -1,6 +1,6 @@
 
 #define GLEW_STATIC
-
+#define GL_GLEXT_PROTOTYPES
 #define SCREEN_WIDTH 1024.0f
 #define SCREEN_HEIGHT 768.0f
 #include <iostream>
@@ -36,9 +36,9 @@ int main(int argc, char **argv)
 	std::cout << "Initialised GLFW" <<std::endl;
 	
 	glfwWindowHint(GLFW_SAMPLES, 4); 									// 4x AA
-	//glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); 		// We don't want the old OpenGL 
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); 		// We don't want the old OpenGL 
 	GLFWwindow* window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "ThreeDee", NULL, NULL);
 	glfwMakeContextCurrent(window);
 	
@@ -52,6 +52,11 @@ int main(int argc, char **argv)
 
 	glewInit();
 	std::cout << "Initialised GLEW" <<std::endl;
+	
+	std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
+    std::cout << "GLSL version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
+    std::cout << "Vendor: " << glGetString(GL_VENDOR) << std::endl;
+	std::cout << "Renderer: " << glGetString(GL_RENDERER) << std::endl;
 	
 	engine.Run(window);
 	

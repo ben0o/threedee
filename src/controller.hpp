@@ -2,6 +2,7 @@
 #define CONTROLLER_H
 
 #include <string>
+#include "GLFW/glfw3.h"
 #include "console.hpp"
 #include "Structs.hpp"
 #include "SceneManager.hpp"
@@ -15,11 +16,12 @@ public:
 	
 	void SetForegroundStatus();					//used to switch between controllers
 	bool GetForegroundStatus();
-	virtual void Update(double);
-	virtual void Draw();
+	virtual void Update(double) {}
+	virtual void Draw(GLFWwindow*) {}
 
-	virtual void CompareSettings();
+	virtual void CompareSettings() {}
 	
+
 protected:
 	Console* p_console;
 	Settings* p_settings;
