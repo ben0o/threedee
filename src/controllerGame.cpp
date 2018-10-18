@@ -49,11 +49,12 @@ void ControllerGame::LoadLevel()
 	std::cout << "Loading Level " << settings.level << std::endl;
 	Object tempObj;
 	tempObj.z = -5.f;
-	tempObj.ry = -95.f;
+	tempObj.ry = 0.f;
 	tempObj.meshFilename = "cabin.obj";
 	p_sceneManager->AddObject(tempObj);
 	
 	p_sceneManager->InitialiseShaders();
 	bLoading = false;
+	std::cout << "Load Complete " << settings.level << std::endl;
 }
 

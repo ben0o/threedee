@@ -11,6 +11,8 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 #include "glm/gtx/transform.hpp"
+#include "object.hpp"
+#include "shader.hpp"
 
 class SceneManager
 {
@@ -25,19 +27,16 @@ public:
 	void InitialiseShaders();
 private:
 
-	
 	Settings* p_settings;
 	MeshManager* p_meshManager;
 	TextureManager* p_textureManager;
-	std::vector<Object>objects;
 	
+	std::vector<Object>objectCollection;
 	
 	GLuint vao;
 	GLuint vbo;
 	
-	GLuint vertexShader;
-	GLuint fragmentShader;
-	GLuint shaderProgram;
+	Shader* shader;
 };
 
 #endif

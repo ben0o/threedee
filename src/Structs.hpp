@@ -2,6 +2,7 @@
 #define STRUCTS_H
 
 #include <string>
+#include "glm/vec4.hpp"
 
 struct Settings
 {
@@ -12,29 +13,32 @@ struct Settings
 	}
 };
 
-struct Object
+struct Material
 {
 	std::string name;
-	std::string meshFilename;
-	int meshID;
-	float x;
-	float y;
-	float z;
-	float rx;
-	float ry;
-	float rz;
-	Object()
+	glm::vec4 Ka;						//Ambient
+	glm::vec4 Kd;						//Diffuse
+	glm::vec4 Ks;						//Specular
+	std::string map_Kd;					//Diffuse Map
+	std::string map_Ks;					//Specular Map
+	std::string map_bump;				//Bump Map
+	
+	int index_Kd;
+	int index_Ks;
+	int index_bump;
+	Material()
 	{
-		name = "";
-		meshFilename = "cube.obj";
-		meshID = -1;
-		x = 0.f;
-		y = 0.f;
-		z = 0.f;
-		rx = 0.f;
-		ry = 0.f;
-		rz = 0.f;
+		Ka = glm::vec4(1.f,1.f,1.f,1.f);
+		Kd = glm::vec4(1.f,1.f,1.f,1.f);
+		Ks = glm::vec4(0.f,0.f,0.f,1.f);
+		map_Kd = "";
+		map_Ks = "";
+		map_bump = "";
+		index_Kd = -1 ;
+		index_Ks = -1 ;
+		index_bump = -1;
 	}
 };
+
 
 #endif

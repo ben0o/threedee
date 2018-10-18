@@ -5,6 +5,7 @@
 #include <vector>
 #include "GLFW/glfw3.h"
 #include <iostream>
+#include "shader.hpp"
 
 class Mesh
 {
@@ -13,7 +14,7 @@ public:
 	~Mesh();
 	
 	void InitialiseVAO();
-	void Draw();
+	void Draw(Shader*);
 
 	std::vector<float>vertices;
 	std::vector<int>indices;
@@ -25,5 +26,9 @@ public:
 	GLuint normalId;
 	GLuint uvId;
 	int vertexCount;
+	
+	GLuint map_Kd;
+	GLuint map_Ks;
+	GLuint map_bump;
 };
 #endif
