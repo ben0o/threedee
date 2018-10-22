@@ -42,6 +42,10 @@ void ControllerGame::CompareSettings()
 	if (bChangeLevel)
 		LoadLevel();
 }
+void ControllerGame::MouseSetRotation(double _x,double _y)
+{
+	p_sceneManager->MouseSetRotation(_x,_y);
+}
 void ControllerGame::LoadLevel()
 {
 	//this needs to be threaded

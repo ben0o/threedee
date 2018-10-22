@@ -18,7 +18,7 @@ public:
 	bool GetForegroundStatus();
 	virtual void Update(double) {}
 	virtual void Draw(GLFWwindow*) {}
-
+	virtual void MouseSetRotation(double,double) {}
 	virtual void CompareSettings() {}
 	
 

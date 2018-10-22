@@ -13,6 +13,7 @@
 #include "glm/gtx/transform.hpp"
 #include "object.hpp"
 #include "shader.hpp"
+#include "camera.hpp"
 
 class SceneManager
 {
@@ -25,6 +26,7 @@ public:
 	void Update(double);
 	void AddObject(Object);
 	void InitialiseShaders();
+	void MouseSetRotation(double,double);
 private:
 
 	Settings* p_settings;
@@ -37,6 +39,8 @@ private:
 	GLuint vbo;
 	
 	Shader* shader;
+	
+	Camera* p_camera;
 };
 
 #endif

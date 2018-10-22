@@ -3,16 +3,16 @@
 
 void Engine::MouseCallback(double x, double y)
 {
-	float deltaX =  x - oldMousePosX;
-	float deltaY =  y - oldMousePosY;
+	double deltaX =  x - oldMousePosX;
+	double deltaY =  y - oldMousePosY;
 	
-	mouseSensitivity = 0.01;
+	mouseSensitivity = 0.0005;
 	deltaX *= mouseSensitivity;
 	deltaY *= mouseSensitivity;
 
 	//Direct hook into camera rotation from mouse movement to prevent lag
-	p_camera->MouseSetRotation(deltaX,deltaY);
-	
+	p_cntrCurrent->MouseSetRotation(deltaX,deltaY);
+
 	oldMousePosX = x;
 	oldMousePosY = y;
 }
@@ -109,12 +109,9 @@ void Engine::Update(double dt)
 }
 void Engine::Draw()
 {
-	
-	//p_camera->Draw(p_window);
+	glClearColor(0.0,0.0,0.0,0.0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
 
-	//Draw world here
-	
-	//***************
 	p_cntrCurrent->Draw(p_window);
 
     p_console->DisplayFrameRate();

@@ -21,6 +21,7 @@ public:
 	
 	virtual void CompareSettings();
 
+	void MouseSetRotation(double,double);
 private:
 	void LoadLevel();
 
@@ -28,6 +29,7 @@ protected:
 	SceneManager* p_sceneManager;
 	Settings settings;
 	bool bLoading;
+
 	
 };
 #endif

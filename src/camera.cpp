@@ -32,14 +32,16 @@ Camera::~Camera()
 }
 void Camera::MouseSetRotation(double _x, double _y)
 {
-	vec3Rotation.y += _x;
+	//purposely reversed
 	vec3Rotation.x += _y;
+	vec3Rotation.y += _x;
 }
 void Camera::Update(double dt)
 {
 }
-void Camera::Draw(GLFWwindow* _window)
+glm::mat4 Camera::Draw(GLFWwindow* _window, glm::mat4 _viewMatrix)
 {
+	/*
 	double fovy = 45.0;
 	double zNear = 0.1;
 	double zFar = 1500;
@@ -70,4 +72,12 @@ void Camera::Draw(GLFWwindow* _window)
 	glRotatef(vec3Rotation.y, 0.f, 1.f, 0.f);
 	glRotatef(vec3Rotation.z, 0.f, 0.f, 1.f);
 	glTranslatef(vec3Position.x,vec3Position.y,vec3Position.z);
+	*/
+
+	_viewMatrix = glm::translate(_viewMatrix, vec3Position);
+	_viewMatrix = glm::rotate(_viewMatrix, vec3Rotation.x, glm::vec3(1.0, 0.0, 0.0));
+	_viewMatrix = glm::rotate(_viewMatrix, vec3Rotation.y, glm::vec3(0.0, 1.0, 0.0));
+	_viewMatrix = glm::rotate(_viewMatrix, vec3Rotation.z, glm::vec3(0.0, 0.0, 1.0));
+	
+	return _viewMatrix;
 }

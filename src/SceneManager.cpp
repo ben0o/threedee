@@ -8,6 +8,7 @@ SceneManager::SceneManager(MeshManager* _ptrMeshMan, TextureManager* _ptrTexMan,
 	p_meshManager = _ptrMeshMan;
 	p_textureManager = _ptrTexMan;
 	p_settings = _ptrSettings;
+	p_camera = new Camera();
 	shader = new Shader();
 }
 SceneManager::~SceneManager()
@@ -26,8 +27,9 @@ void SceneManager::Draw(GLFWwindow* _window)
 	glm::mat4 modelView = glm::mat4(1.0f);
 	
 	//camera
+	modelView = p_camera->Draw(_window,modelView);
 	modelView = glm::translate(modelView, glm::vec3(0.0,-5.0,-50.0));
-	modelView = glm::rotate(modelView, -0.8f, glm::vec3(0.0, 1.0, 0.0));
+	//modelView = glm::rotate(modelView, -0.8f, glm::vec3(0.0, 1.0, 0.0));
 	
 	const glm::mat4 MVP        = projection * modelView;
 	
@@ -51,4 +53,8 @@ void SceneManager::AddObject(Object _object)
 void SceneManager::InitialiseShaders()
 {
 	shader->LoadShader();
+}
+void SceneManager::MouseSetRotation(double _x,double _y)
+{
+	p_camera->MouseSetRotation(_x,_y);
 }

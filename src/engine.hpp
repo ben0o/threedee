@@ -44,9 +44,9 @@ private:
 	bool bShowLoadingScreen;
 	
 	//Camera
-	float oldMousePosX;
-	float oldMousePosY;
-	float mouseSensitivity;
+	double oldMousePosX;
+	double oldMousePosY;
+	double mouseSensitivity;
 	
 	Settings* p_settings;
 	SceneManager* p_sceneManager;
