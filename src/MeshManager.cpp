@@ -120,26 +120,47 @@ Object MeshManager::LoadObj(std::string _filename)
 			tex = materials[materialMap[mtl[mtlCount]]].map_Kd;
 
 			// Load textures
-			GLuint textures[2];
-			glGenTextures(2, textures);
+			GLuint textures[3];
+			glGenTextures(3, textures);
 
 			int width, height;
 			unsigned char* image;
 
-			//glActiveTexture(GL_TEXTURE0);
+			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, textures[0]);
 			image = SOIL_load_image(tex.c_str(), &width, &height, 0, SOIL_LOAD_RGB);
 			
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+			glGenerateMipmap(GL_TEXTURE_2D);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
 			SOIL_free_image_data(image);
-
+			
 			tempObject.meshCollection[tempObject.meshCollection.size()-1].map_Kd = textures[0];
-
+			tempObject.meshCollection[tempObject.meshCollection.size()-1].map_Ks = textures[0];
+			
+			
+			glActiveTexture(GL_TEXTURE2);
+			tex = materials[materialMap[mtl[mtlCount]]].map_bump;
+			
+			glBindTexture(GL_TEXTURE_2D, textures[2]);
+			image = SOIL_load_image(tex.c_str(), &width, &height, 0, SOIL_LOAD_RGB);
+			
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+			glGenerateMipmap(GL_TEXTURE_2D);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			
+			SOIL_free_image_data(image);
+			
+			tempObject.meshCollection[tempObject.meshCollection.size()-1].map_bump = textures[2];
+			
+			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D,0);
 			mtlCount++;
 		}
@@ -168,7 +189,7 @@ bool MeshManager::CreateMaterials(std::string _filename, std::vector<Material> &
 {
 	int numMaterials = 0;
 	std::string line;
-	float tempFloat;
+	//float tempFloat;
 	std::string tempString;
 
 	Material tempMaterial;
@@ -212,5 +233,6 @@ bool MeshManager::CreateMaterials(std::string _filename, std::vector<Material> &
 		std::cout << "Processed " << numMaterials << " materials" << std::endl;
 	}
 	objfile.close();
+	return true;
 }
 

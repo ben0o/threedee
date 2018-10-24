@@ -51,11 +51,39 @@ void ControllerGame::LoadLevel()
 	//this needs to be threaded
 	bLoading = true;
 	std::cout << "Loading Level " << settings.level << std::endl;
-	Object tempObj;
-	tempObj.z = -5.f;
-	tempObj.ry = 0.f;
-	tempObj.meshFilename = "cabin.obj";
-	p_sceneManager->AddObject(tempObj);
+	
+	{
+		glm::vec3 position = glm::vec3(0.0,0.0,0.0);
+		glm::vec3 rotation = glm::vec3(0.0,0.0,0.0);
+		
+		Object tempObj(position,rotation);
+		tempObj.meshFilename = "roughl.obj";
+		p_sceneManager->AddObject(tempObj);
+	}
+	{
+		glm::vec3 position = glm::vec3(0.0,5.0,0.0);
+		glm::vec3 rotation = glm::vec3(0.0,0.0,0.0);
+		
+		Object tempObj(position,rotation);
+		tempObj.meshFilename = "cube.obj";
+		p_sceneManager->AddObject(tempObj);
+	}
+	{
+		glm::vec3 position = glm::vec3(10.0,0.0,0.0);
+		glm::vec3 rotation = glm::vec3(0.0,90.0,0.0);
+		
+		Object tempObj(position,rotation);
+		tempObj.meshFilename = "lift_tri.obj";
+		p_sceneManager->AddObject(tempObj);
+	}
+	{
+		glm::vec3 position = glm::vec3(-10.0,0.0,0.0);
+		glm::vec3 rotation = glm::vec3(0.0,45.0,0.0);
+		
+		Object tempObj(position,rotation);
+		tempObj.meshFilename = "lift_tri.obj";
+		p_sceneManager->AddObject(tempObj);
+	}
 	
 	p_sceneManager->InitialiseShaders();
 	bLoading = false;

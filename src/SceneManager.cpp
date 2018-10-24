@@ -22,23 +22,30 @@ void SceneManager::Draw(GLFWwindow* _window)
     glfwGetFramebufferSize(_window, &width, &height);
 	assert(width > 0 && height > 0);
 	const float ratio = width / float(height);
-							
-	const glm::mat4 projection = glm::perspective(45.0f, ratio, 0.1f, 200.0f);
-	glm::mat4 modelView = glm::mat4(1.0f);
+	
+	glm::mat4 model 	 = glm::mat4(1.0f);	
+	glm::mat4 view 		 = glm::mat4(1.0f);				
+	glm::mat4 projection = glm::perspective(45.0f, ratio, 0.1f, 200.0f);
 	
 	//camera
-	modelView = p_camera->Draw(_window,modelView);
-	modelView = glm::translate(modelView, glm::vec3(0.0,-5.0,-50.0));
-	//modelView = glm::rotate(modelView, -0.8f, glm::vec3(0.0, 1.0, 0.0));
+	view = p_camera->Draw(_window,view);
+	view = glm::translate(view, glm::vec3(0.0,-5.0,-10.0));
 	
-	const glm::mat4 MVP        = projection * modelView;
-	
-	glViewport(0, 0, width, height);
-	
-	shader->SetMVP(MVP);
+	shader->SetMatV(view);
+	shader->SetMatP(projection);
 	
 	for (std::vector<Object>::size_type i = 0;i<objectCollection.size();i++)
+	{
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, objectCollection[i].position);
+		model = glm::rotate(model, (objectCollection[i].rotation.x * 3.142f) / 180.f, glm::vec3(1.0, 0.0, 0.0));
+		model = glm::rotate(model, (objectCollection[i].rotation.y * 3.142f) / 180.f, glm::vec3(0.0, 1.0, 0.0));
+		model = glm::rotate(model, (objectCollection[i].rotation.z * 3.142f) / 180.f, glm::vec3(0.0, 0.0, 1.0));
+		
+		shader->SetMatM(model);
+		
 		objectCollection[i].Draw(shader);
+	}
 }
 void SceneManager::Update(double _dt)
 {
@@ -46,8 +53,12 @@ void SceneManager::Update(double _dt)
 }
 void SceneManager::AddObject(Object _object)
 {
-	_object = p_meshManager->LoadObj(_object.meshFilename);
-	objectCollection.push_back(_object);
+	Object tempObject = p_meshManager->LoadObj(_object.meshFilename);
+	tempObject.name = _object.name;
+	tempObject.meshFilename = _object.meshFilename;
+	tempObject.position = _object.position;
+	tempObject.rotation = _object.rotation;
+	objectCollection.push_back(tempObject);
 }
 
 void SceneManager::InitialiseShaders()

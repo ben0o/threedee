@@ -20,9 +20,12 @@ public:
 	void UseProgram();
 	
 	void SetMVP(glm::mat4);
+	void SetMatM(glm::mat4);
+	void SetMatV(glm::mat4);
+	void SetMatP(glm::mat4);
 	void SetMap_Kd(GLuint);
-	void SetMap_Ks();
-	void SetMap_bump();
+	void SetMap_Ks(GLuint);
+	void SetMap_bump(GLuint);
 
 	GLuint vertexShader;
 	GLuint fragmentShader;
