@@ -28,13 +28,15 @@ const GLchar* fragmentSource = R"glsl(
 
     in vec2 UV;
     out vec4 colour;
-    
+    out vec4 dummy;
     uniform sampler2D map_Kd;
 	uniform sampler2D map_Ks;
 	uniform sampler2D map_bump;
 	void main()
 	{ 
 		colour = texture2D(map_Kd, UV);
+		//colour = texture2D(map_Ks, UV);
+		dummy = texture2D(map_bump, UV);
 	}
 )glsl";
 //******************************************************************
@@ -57,7 +59,8 @@ const GLchar* vertexSource2 = R"glsl(
 		mat4 mvp = p*v*m;
 		gl_Position = mvp * vec4(v_coord,1.f);
 		position = m * vec4(v_coord,1.f);
-		normal = vec3(m * vec4(v_normal,1.f));
+		//normal = vec3(m * vec4(v_normal,1.f));
+		normal = v_normal;
 		UV = uv;
 	}
 )glsl";
@@ -87,7 +90,7 @@ const GLchar* fragmentSource2 = R"glsl(
 		vec4(0.0,  5.0,  0.0, 0.0),
 		vec4(1.0,  1.0,  1.0, 1.0),
 		vec4(1.0,  1.0,  1.0, 1.0),
-		0.0, 1.0, 0.0,
+		0.0, 0.2, 0.0,
 		180.0, 0.0,
 		vec3(0.0, 0.0, 0.0)
 	);
@@ -138,7 +141,6 @@ const GLchar* fragmentSource2 = R"glsl(
 			}
 		}
 		kd = attenuation * light0.diffuse * texture2D(map_Kd, UV) * max(0.0, dot(normalDirection, lightDirection));
-		//kd = texture2D(map_Kd, UV);
 		colour = kd;
 	}
 )glsl";
@@ -226,26 +228,9 @@ void Shader::SetMatP(glm::mat4 _P)
 	GLint mvpID = glGetUniformLocation(shaderProgram, "p");
 	glUniformMatrix4fv(mvpID, 1, GL_FALSE, glm::value_ptr(_P));
 }
-void Shader::SetMap_Kd(GLuint _map_Kd)
+GLint Shader::GetTextureID(std::string _texture)
 {
-	GLint textureID = glGetUniformLocation(shaderProgram, "map_Kd");
+	GLint textureID = glGetUniformLocation(shaderProgram, _texture.c_str());
     assert(textureID>=0);
-
-    glUniform1i(textureID, 0);
-    
-glUniform1i(textureID, 0);
-}
-void Shader::SetMap_Ks(GLuint _map_Ks)
-{
-	GLint textureID = glGetUniformLocation(shaderProgram, "map_Ks");
-    assert(textureID>=0);
-
-    glUniform1i(textureID, 1);
-}
-void Shader::SetMap_bump(GLuint _map_bump)
-{
-	GLint textureID = glGetUniformLocation(shaderProgram, "map_bump");
-    assert(textureID>=0);
-    
-    glUniform1i(textureID, 2);
+    return textureID;
 }

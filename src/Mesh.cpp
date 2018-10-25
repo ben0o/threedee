@@ -38,17 +38,20 @@ void Mesh::Draw(Shader* _shader)
     glEnableVertexAttribArray(1);
     glEnableVertexAttribArray(2);
 
-	_shader->SetMap_Kd(map_Kd);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, map_Kd);
+	GLint KdID = _shader->GetTextureID("map_Kd");
+	glUniform1i(KdID, 0);
 	
-	_shader->SetMap_Kd(map_Ks);
-	glActiveTexture(GL_TEXTURE0 + 1);
-	glBindTexture(GL_TEXTURE_2D, map_Ks);
+	//glActiveTexture(GL_TEXTURE1);
+	//glBindTexture(GL_TEXTURE_2D, map_Ks);
+	//GLint KsID = _shader->GetTextureID("map_Ks");
+	//glUniform1i(KsID, 1);
 	
-	_shader->SetMap_Kd(map_bump);
-	glActiveTexture(GL_TEXTURE0 + 2);
+	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_2D, map_bump);
+	GLint bump_ID = _shader->GetTextureID("map_bump");
+	glUniform1i(bump_ID, 2);
 	
 	glDrawArrays(GL_TRIANGLES, 0, vertexCount);
 	//glDrawArrays(GL_POINTS, 0, vertexCount);

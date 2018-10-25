@@ -23,9 +23,8 @@ public:
 	void SetMatM(glm::mat4);
 	void SetMatV(glm::mat4);
 	void SetMatP(glm::mat4);
-	void SetMap_Kd(GLuint);
-	void SetMap_Ks(GLuint);
-	void SetMap_bump(GLuint);
+	
+	GLint GetTextureID(std::string);
 
 	GLuint vertexShader;
 	GLuint fragmentShader;
